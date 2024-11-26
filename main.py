@@ -67,20 +67,6 @@ general_patients = db['general_patients']
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Flask-Mail configuration
-# app.config.update(
-#     MAIL_SERVER='smtp.your_email_provider.com',
-#     MAIL_PORT=587,
-#     MAIL_USE_TLS=True,
-#     MAIL_USERNAME='your_email@example.com',
-#     MAIL_PASSWORD='your_email_password'
-# )
-# mail = Mail(app)
-# serializer = URLSafeTimedSerializer(app.secret_key)
-
-
-#end of updated code
-
 def load_patients():
     if os.path.exists(PATIENT_DATA_FILE):
         with open(PATIENT_DATA_FILE, 'r') as file:
@@ -753,63 +739,6 @@ def logout():
     session.pop('patient', None)  # Remove patient from session
     return redirect(url_for('home'))  # Redirect to login page
 
-# addcode 
-
-# @app.route('/forgot_password', methods=['GET', 'POST'])
-# def forgot_password():
-#     if request.method == 'POST':
-#         email = request.form['email']
-#         patients = load_patients()
-
-#         if email not in patients:
-#             flash('Invalid email address!', 'danger')
-#             return redirect(url_for('forgot_password'))
-
-#         token = serializer.dumps(email, salt='password-reset-salt')
-#         reset_url = url_for('reset_password', token=token, _external=True)
-#         msg = Message('Password Reset Request', sender='your_email@example.com', recipients=[email])
-#         msg.body = f'Please click the link to reset your password: {reset_url}'
-
-#         try:
-#             logging.debug(f'Sending email to {email} with reset link: {reset_url}')
-#             mail.send(msg)
-#             flash('Password reset link sent to your email.', 'info')
-#         except socket.gaierror as e:
-#             logging.error(f'Failed to connect to the email server: {e}')
-#             flash('Failed to connect to the email server. Please check your network and email server configuration.', 'danger')
-#         except Exception as e:
-#             logging.error(f'An error occurred: {e}')
-#             flash(f'An error occurred: {str(e)}', 'danger')
-
-#         return redirect(url_for('login'))
-    
-#     return render_template('forgot_password.html')
-
-# @app.route('/reset_password/<token>', methods=['GET', 'POST'])
-# def reset_password(token):
-#     try:
-#         email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
-#     except SignatureExpired:
-#         flash('The password reset link has expired.', 'danger')
-#         return redirect(url_for('forgot_password'))
-#     except BadSignature:
-#         flash('The password reset link is invalid.', 'danger')
-#         return redirect(url_for('forgot_password'))
-
-#     if request.method == 'POST':
-#         new_password = request.form['password']
-#         patients = load_patients()
-#         patients[email]['password'] = new_password
-#         save_patients(patients)
-#         flash('Your password has been updated!', 'success')
-#         return redirect(url_for('login'))
-    
-#     return render_template('reset_password.html')
-
-
-# endcode
-
-
 
 
 @app.route('/doctor-login', methods=['GET', 'POST'])
@@ -878,22 +807,11 @@ def doctor_home():
 
     return render_template('doctor_home.html', doctor=session['doctor'])
 
-
-# @app.route('/view_patients', methods=['GET'])
-# def view_patients():
-#     # Fetch patient data from the database
-#     patients = patients_collection.find()
-#     # Pass the patient data to a template
-#     return render_template('view_patients.html', patients=patients)
-
-
 @app.route('/doctor-logout')
 def doctor_logout():
     session.pop('doctor', None)
     flash('Logged out successfully!')
     return redirect(url_for('main'))
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
