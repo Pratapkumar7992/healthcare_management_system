@@ -112,11 +112,14 @@
             </div>
         </a>
 
-        <div class="feature">
-            <img src="{{ url_for('static', filename='picture/medicine.png') }}" alt="Prescription Management">
-            <h3>Prescription Management</h3>
-            <p>Facilitate issuing and tracking prescriptions.</p>
-        </div>
+        <a href="{{ url_for('prescription_management') }}" class="feature-link">
+            <div class="feature">
+                <img src="{{ url_for('static', filename='picture/medicine.png') }}" alt="Prescription Management">
+                <h3>Prescription Management</h3>
+                <p>Facilitate issuing and tracking prescriptions.</p>
+            </div>
+        </a>
+        
         
         
         <div class="feature">

@@ -59,6 +59,7 @@ appointment_collection=db['appointments']
 past_appointment_collection=db['past_appointment']
 test_bills_collection = db['test_bills_collection']
 authorize_collection=db['Authorized_person']
+prescriptions_collection = db['prescriptions']
 cancer_patients = db['cancer_patients']
 dermatology_patients = db['dermatology_patients']
 cardiology_patients = db['cardiology_patients']
@@ -492,6 +493,40 @@ def analytics():
 
 
 #end analystic management
+
+#start prescription
+
+@app.route('/prescriptions/add', methods=['POST'])
+def add_prescription():
+    # Get form data
+    patient_name = request.form.get('patient_name')
+    doctor_name = request.form.get('doctor_name')
+    medicine = request.form.get('medicine')
+    instructions = request.form.get('instructions')
+
+    # Insert into MongoDB
+    prescription = {
+        'patient_name': patient_name,
+        'doctor_name': doctor_name,
+        'medicine': medicine,
+        'instructions': instructions
+    }
+    prescriptions_collection.insert_one(prescription)
+
+    return redirect(url_for('prescription_management'))
+
+@app.route('/prescriptions')
+def prescription_management():
+    # Retrieve all prescriptions from MongoDB
+    prescriptions = list(prescriptions_collection.find())
+    return render_template('prescription_management.html', prescriptions=prescriptions)
+
+
+
+#end prescription
+
+
+
 
 
 #testing billing
