@@ -736,6 +736,13 @@ def patient_dashboard():
     for appointment in past_appointments:
         appointment['_id'] = str(appointment['_id'])  # Convert ObjectId to string
 
+        # Fetch prescription for each past appointment
+        prescription = prescriptions_collection.find_one({
+            'email': email,
+            'appointment_id': appointment['_id']
+        })
+        appointment['prescription'] = prescription['prescription'] if prescription else 'No prescription available'
+
     return render_template(
         'patient_dashboard.html',
         patient=patient,
@@ -745,17 +752,39 @@ def patient_dashboard():
 
 
 
+
+
 @app.route('/complete_appointment/<appointment_id>', methods=['POST'])
 def complete_appointment(appointment_id):
+    prescription_text = request.form.get('prescription')  # Get prescription from the form
+
+    if not prescription_text:
+        flash('Prescription cannot be empty when completing an appointment.', 'danger')
+        return redirect(url_for('patient_dashboard'))
+
     try:
-        # Find the appointment by ID and remove it from appointment_collection
+        # Fetch the appointment from the active appointments collection
         appointment = appointment_collection.find_one({'_id': ObjectId(appointment_id)})
+
         if appointment:
-            # Insert the appointment into past_appointment_collection
+            email = appointment['email']
+
+            # Save the prescription in prescription_collection
+            prescription_data = {
+                'email': email,
+                'appointment_id': str(appointment['_id']),
+                'prescription': prescription_text
+            }
+            prescriptions_collection.insert_one(prescription_data)
+
+            # Insert the updated appointment into past_appointment_collection
+            appointment['prescription'] = prescription_text  # Add prescription for future reference
             past_appointment_collection.insert_one(appointment)
-            # Remove it from the current appointment_collection
+
+            # Remove the appointment from the active appointments collection
             appointment_collection.delete_one({'_id': ObjectId(appointment_id)})
-            flash('Appointment marked as completed!', 'success')
+
+            flash('Appointment completed and prescription saved!', 'success')
         else:
             flash('Appointment not found!', 'danger')
     except Exception as e:
@@ -766,6 +795,59 @@ def complete_appointment(appointment_id):
 
 
 
+
+@app.route('/add_prescription/<appointment_id>', methods=['POST'])
+def add_prescription_handler(appointment_id):  # Rename the function
+    prescription_text = request.form.get('prescription')
+    if not prescription_text:
+        flash('Prescription cannot be empty.', 'danger')
+        return redirect(url_for('patient_dashboard'))
+
+    try:
+        # Check if a prescription already exists
+        existing_prescription = prescriptions_collection.find_one({'appointment_id': appointment_id})
+
+        if existing_prescription:
+            # Update existing prescription
+            prescriptions_collection.update_one(
+                {'appointment_id': appointment_id},
+                {'$set': {'prescription': prescription_text, 'date': datetime.datetime.now()}}
+            )
+        else:
+            # Insert a new prescription
+            prescriptions_collection.insert_one({
+                'appointment_id': appointment_id,
+                'prescription': prescription_text,
+                'date': datetime.datetime.now()
+            })
+
+        flash('Prescription added successfully!', 'success')
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        flash('An error occurred while adding the prescription.', 'danger')
+
+    return redirect(url_for('patient_dashboard'))
+
+@app.route('/prescriptions/fetch', methods=['POST'])
+def fetch_prescriptions():
+    email = request.form.get('email')  # Get the email from the form
+
+    # Fetch past appointments related to the email
+    past_appointments = list(past_appointment_collection.find({'email': email}))
+
+    for appointment in past_appointments:
+        appointment['_id'] = str(appointment['_id'])  # Convert ObjectId to string
+
+        # Fetch the prescription for each past appointment
+        prescription = prescriptions_collection.find_one({
+            'email': email,
+            'appointment_id': appointment['_id']
+        })
+
+        # Add the prescription to the appointment data (if found)
+        appointment['prescription'] = prescription['prescription'] if prescription else None
+
+    return render_template('prescription_management.html', past_appointments=past_appointments)
 
 
 

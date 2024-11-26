@@ -162,3 +162,22 @@ th {
 .complete-btn:hover {
     background: #218838;
 }
+textarea {
+    width: 90%;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+button.prescription-btn {
+    margin-top: 5px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.prescription-btn:hover {
+    background-color: #45a049;
+}

@@ -4,53 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prescription Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prescription.css') }}">
 </head>
 <body>
+    <button class="home-btn" onclick="window.location.href='/';">Home</button>
     <header>
         <h1>Prescription Management</h1>
     </header>
     <main>
         <section>
-            <h2>Manage Prescriptions</h2>
-            <form action="/prescriptions/add" method="POST">
-                <label for="patient_name">Patient Name:</label>
-                <input type="text" id="patient_name" name="patient_name" required>
-
-                <label for="doctor_name">Doctor Name:</label>
-                <input type="text" id="doctor_name" name="doctor_name" required>
-
-                <label for="medicine">Medicine:</label>
-                <input type="text" id="medicine" name="medicine" required>
-
-                <label for="instructions">Instructions:</label>
-                <textarea id="instructions" name="instructions" rows="4" required></textarea>
-
-                <button type="submit">Add Prescription</button>
+            <h2>Search for Prescriptions by Email</h2>
+            <!-- Email input form to fetch data -->
+            <form action="/prescriptions/fetch" method="POST">
+                <label for="email">Enter your Email ID:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Fetch Prescriptions</button>
             </form>
         </section>
+
         <section>
-            <h2>Existing Prescriptions</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Doctor Name</th>
-                        <th>Medicine</th>
-                        <th>Instructions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for prescription in prescriptions %}
-                    <tr>
-                        <td>{{ prescription.patient_name }}</td>
-                        <td>{{ prescription.doctor_name }}</td>
-                        <td>{{ prescription.medicine }}</td>
-                        <td>{{ prescription.instructions }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h2>Past Appointments and Prescriptions</h2>
+            {% if past_appointments %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>Doctor Name</th>
+                            <th>Disease</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Prescription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in past_appointments %}
+                        <tr>
+                            <td>{{ appointment._id }}</td>
+                            <td>{{ appointment.doctor }}</td>
+                            <td>{{ appointment.disease }}</td>
+                            <td>{{ appointment.startTime }}</td>
+                            <td>{{ appointment.endTime }}</td>
+                            <td>
+                                {% if appointment.prescription %}
+                                    {{ appointment.prescription }}
+                                {% else %}
+                                    No prescription available
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No past appointments found for this email.</p>
+            {% endif %}
         </section>
     </main>
 </body>

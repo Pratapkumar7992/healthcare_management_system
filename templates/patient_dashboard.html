@@ -30,64 +30,76 @@
 
         <!-- Active Appointments Section -->
         <h2>Active Appointments</h2>
-        {% if active_appointments %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Disease</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for appointment in active_appointments %}
-                    <tr>
-                        <td>{{ appointment.doctor }}</td>
-                        <td>{{ appointment.disease }}</td>
-                        <td>{{ appointment.startTime }}</td>
-                        <td>{{ appointment.endTime }}</td>
-                        <td>
-                            <!-- Complete Appointment Button -->
-                            <form action="{{ url_for('complete_appointment', appointment_id=appointment._id) }}" method="POST">
-                                <button type="submit" class="complete-btn">Complete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No active appointments found.</p>
-        {% endif %}
+            {% if active_appointments %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Disease</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in active_appointments %}
+                        <tr>
+                            <td>{{ appointment.doctor }}</td>
+                            <td>{{ appointment.disease }}</td>
+                            <td>{{ appointment.startTime }}</td>
+                            <td>{{ appointment.endTime }}</td>
+                            <td>
+                                <!-- Complete Appointment Form -->
+                                <form action="{{ url_for('complete_appointment', appointment_id=appointment._id) }}" method="POST">
+                                    <textarea name="prescription" placeholder="Add prescription here..." required></textarea>
+                                    <button type="submit" class="complete-btn">Complete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No active appointments found.</p>
+            {% endif %}
+
 
         <!-- Past Appointments Section -->
         <h2>Past Appointments</h2>
-        {% if past_appointments %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Disease</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for appointment in past_appointments %}
-                    <tr>
-                        <td>{{ appointment.doctor }}</td>
-                        <td>{{ appointment.disease }}</td>
-                        <td>{{ appointment.startTime }}</td>
-                        <td>{{ appointment.endTime }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No past appointments found.</p>
-        {% endif %}
+            {% if past_appointments %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Disease</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Prescription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in past_appointments %}
+                        <tr>
+                            <td>{{ appointment.doctor }}</td>
+                            <td>{{ appointment.disease }}</td>
+                            <td>{{ appointment.startTime }}</td>
+                            <td>{{ appointment.endTime }}</td>
+                            <td>
+                                {% if appointment.prescription %}
+                                    {{ appointment.prescription }}
+                                {% else %}
+                                    <em>No prescription available</em>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No past appointments found.</p>
+            {% endif %}
+
+
 
         <!-- Logout Link -->
         <a href="{{ url_for('logout') }}">Logout</a>
