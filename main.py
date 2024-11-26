@@ -1,5 +1,4 @@
 from flask import Flask, render_template,jsonify, request, redirect, url_for, flash, session
-from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
@@ -69,15 +68,15 @@ general_patients = db['general_patients']
 logging.basicConfig(level=logging.DEBUG)
 
 # Flask-Mail configuration
-app.config.update(
-    MAIL_SERVER='smtp.your_email_provider.com',
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_USERNAME='your_email@example.com',
-    MAIL_PASSWORD='your_email_password'
-)
-mail = Mail(app)
-serializer = URLSafeTimedSerializer(app.secret_key)
+# app.config.update(
+#     MAIL_SERVER='smtp.your_email_provider.com',
+#     MAIL_PORT=587,
+#     MAIL_USE_TLS=True,
+#     MAIL_USERNAME='your_email@example.com',
+#     MAIL_PASSWORD='your_email_password'
+# )
+# mail = Mail(app)
+# serializer = URLSafeTimedSerializer(app.secret_key)
 
 
 #end of updated code
