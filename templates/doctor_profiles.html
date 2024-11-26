@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profiles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_profiles.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('main') }}">Back to Dashboard</a>
+    <h1>Doctor Profiles</h1>
+    
+    {% if doctors %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.specialty }}</td>
+                    <td>{{ doctor.email }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No doctor profiles found.</p>
+    {% endif %}
+    
+    
+</body>
+</html>

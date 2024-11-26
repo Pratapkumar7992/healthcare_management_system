@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics and Reporting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Style for the Home Button */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <button class="home-btn" onclick="window.location.href='/';">Home</button>
+    <h1>Analytics and Reporting</h1>
+
+    <div id="analytics">
+        <!-- Patient Demographics -->
+        <div class="chart-container">
+            <h2>Patient Demographics</h2>
+            <canvas id="ageChart"></canvas>
+            <canvas id="genderChart"></canvas>
+        </div>
+
+        <!-- Appointment Trends -->
+        <div class="chart-container">
+            <h2>Appointment Trends</h2>
+            <canvas id="appointmentChart"></canvas>
+        </div>
+
+        <!-- Disease Trends -->
+        <div class="chart-container">
+            <h2>Disease Trends (Past Appointments)</h2>
+            <canvas id="diseasePastChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Disease Trends (Current Appointments)</h2>
+            <canvas id="diseaseCurrentChart"></canvas>
+        </div>
+
+        <!-- Doctor Load -->
+        <div class="chart-container">
+            <h2>Doctor Appointment Load (Past Appointments)</h2>
+            <canvas id="doctorPastChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Doctor Appointment Load (Current Appointments)</h2>
+            <canvas id="doctorCurrentChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Load data from backend passed into the template
+        const patientDemographics = {{ patient_demographics | tojson }};
+        const appointmentTrends = {{ appointment_trends | tojson }};
+        const diseaseTrendsPast = {{ disease_trends_past | tojson }};
+        const diseaseTrendsCurrent = {{ disease_trends_current | tojson }};
+        const doctorAppointmentsPast = {{ doctor_appointments_past | tojson }};
+        const doctorAppointmentsCurrent = {{ doctor_appointments_current | tojson }};
+
+        // Age Distribution Chart
+        const ageData = {
+            labels: Object.keys(patientDemographics.age_distribution),
+            datasets: [{
+                label: 'Age Distribution',
+                data: Object.values(patientDemographics.age_distribution),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Soft Red
+                borderColor: 'rgba(255, 99, 132, 1)',    // Red Border
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('ageChart'), { type: 'bar', data: ageData });
+
+        // Gender Distribution Chart
+        const genderData = {
+            labels: Object.keys(patientDemographics.gender_distribution),
+            datasets: [{
+                label: 'Gender Distribution',
+                data: Object.values(patientDemographics.gender_distribution),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Soft Red, Blue, Yellow
+                hoverOffset: 4
+            }]
+        };
+        new Chart(document.getElementById('genderChart'), { type: 'pie', data: genderData });
+
+        // Appointment Trends Chart
+        const appointmentData = {
+            labels: ['Current Appointments', 'Past Appointments'],
+            datasets: [{
+                label: 'Appointments',
+                data: [
+                    appointmentTrends.total_appointments,
+                    appointmentTrends.total_past_appointments
+                ],
+                backgroundColor: ['#4CAF50', '#FFC107'], // Green, Amber
+                hoverOffset: 4
+            }]
+        };
+        new Chart(document.getElementById('appointmentChart'), { type: 'doughnut', data: appointmentData });
+
+        // Disease Trends Past Chart
+        const diseasePastData = {
+            labels: Object.keys(diseaseTrendsPast),
+            datasets: [{
+                label: 'Past Disease Trends',
+                data: Object.values(diseaseTrendsPast),
+                backgroundColor: '#42A5F5', // Light Blue
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('diseasePastChart'), { type: 'bar', data: diseasePastData });
+
+        // Disease Trends Current Chart
+        const diseaseCurrentData = {
+            labels: Object.keys(diseaseTrendsCurrent),
+            datasets: [{
+                label: 'Current Disease Trends',
+                data: Object.values(diseaseTrendsCurrent),
+                backgroundColor: '#66BB6A', // Green
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('diseaseCurrentChart'), { type: 'bar', data: diseaseCurrentData });
+
+        // Doctor Load Past Chart
+        const doctorPastData = {
+            labels: Object.keys(doctorAppointmentsPast),
+            datasets: [{
+                label: 'Past Doctor Appointments',
+                data: Object.values(doctorAppointmentsPast),
+                backgroundColor: '#FF7043', // Coral
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('doctorPastChart'), { type: 'bar', data: doctorPastData });
+
+        // Doctor Load Current Chart
+        const doctorCurrentData = {
+            labels: Object.keys(doctorAppointmentsCurrent),
+            datasets: [{
+                label: 'Current Doctor Appointments',
+                data: Object.values(doctorAppointmentsCurrent),
+                backgroundColor: '#AB47BC', // Purple
+                borderWidth: 1
+            }]
+        };
+        new Chart(document.getElementById('doctorCurrentChart'), { type: 'bar', data: doctorCurrentData });
+    </script>
+</body>
+</html>

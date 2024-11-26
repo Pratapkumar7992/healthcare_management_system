@@ -1,0 +1,20 @@
+first way {
+
+    first run this in cmd 
+
+    $env:SECRET_KEY="u3mGxcWGXajaw9hhb2FrvbvgUscnc0Q1AHIOSZVmqwM="
+
+    then run python app.py
+
+}
+
+second way {
+
+    python generate_key.py  (it genrate the new key every time run in command prompt)
+
+    $env:SECRET_KEY="new_generated_key_here"  (put this new generate key here and run in command prompt)
+
+    after that run python app.py and move to chrome browser
+
+
+}

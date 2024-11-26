@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome, Dr. {{ doctor_name }}!</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('view_patients') }}">View Patients</a></li>
+                <li><a href="{{ url_for('manage_appointments') }}">Manage Appointments</a></li>
+                <li><a href="{{ url_for('doctor_profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Dashboard</h2>
+        <p>Welcome to your dashboard, where you can manage your patients, appointments, and view your profile information.</p>
+        
+        <section>
+            <h3>Quick Actions</h3>
+            <ul>
+                <li><a href="{{ url_for('add_patient') }}">Add New Patient</a></li>
+                <li><a href="{{ url_for('view_appointments') }}">Today's Appointments</a></li>
+                <li><a href="{{ url_for('doctor_profile') }}">Update Profile</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 HealthSphere. All rights reserved.</p>
+    </footer>
+</body>
+</html>

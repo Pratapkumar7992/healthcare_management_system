@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing Information</title>
+</head>
+<body>
+    <h2>Billing Information for {{ email }}</h2>
+    <table border="1">
+        <tr>
+            <th>Test Name</th>
+            <th>Amount</th>
+            <th>Timing</th>
+            <th>Test Date</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.test_name }}</td>
+            <td>{{ record.amount }}</td>
+            <td>{{ record.timing }}</td>
+            <td>{{ record.test_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/print_invoice/{{ email }}"><button>Print Invoice</button></a>
+</body>
+</html>

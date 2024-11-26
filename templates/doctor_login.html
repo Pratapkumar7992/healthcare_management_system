@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_login.css') }}">
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='video/login.mp4') }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <div class="logo">HealthSphere</div>
+        <div class="nav-links" id="nav-links">
+            <a href="#">Source</a>
+            <a href="#">Resource</a>
+            <a href="{{ url_for('main') }}">Home</a>
+            <a href="{{ url_for('doctor_login') }}">Doctor Login</a>
+        </div>
+        
+        <!-- Check if the doctor is logged in, and display their name -->
+        {% if doctor_name %}
+        <div class="doctor-name">
+            Logged in as: Dr. {{ doctor_name }}
+        </div>
+        {% endif %}
+        
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Doctor Login</h2>
+        <form action="{{ url_for('doctor_login') }}" method="POST">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Display Flash Messages -->
+        
+
+        <a href="{{ url_for('register_doctor') }}">Don't have an account? Register here</a>
+    </div>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function(event) {
+            event.stopPropagation();
+            var navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            var navLinks = document.getElementById('nav-links');
+            var hamburger = document.getElementById('hamburger');
+            if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

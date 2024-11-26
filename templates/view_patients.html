@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patients</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_patients.css') }}">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="background-video">
+            <source src="{{ url_for('static', filename='video/login.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="content">
+        <header>
+            <h1>Welcome, {{ doctor }}!</h1>
+            <a href="{{ url_for('main') }}">Back to Home</a>
+        </header>
+
+        <h2>All Patients</h2>
+
+        <!-- Search Bar -->
+        <input type="text" id="search" placeholder="Search by patient name..." onkeyup="searchPatients()" class="search-bar">
+
+        <div class="patient-container" id="patient-list">
+            {% if patients %}
+                {% for patient in patients %}
+                <div class="patient-block" data-name="{{ patient.name | lower }}">
+                    <h3>{{ patient.name }}</h3>
+                    <p><span>Email:</span> {{ patient.email }}</p>
+                    <p><span>Age:</span> {{ patient.age }}</p>
+                    <p><span>Gender:</span> {{ patient.gender }}</p>
+                    <p><span>Disease:</span> {{ patient.disease }}</p>
+                    <p><span>Date of Birth:</span> {{ patient.dob }}</p>  <!-- Displaying decrypted dob -->
+                    <p><span>Contact Number:</span> {{ patient.contact }}</p>  <!-- Displaying decrypted contact -->
+                    <p><span>Aadhar Number:</span> {{ patient.aadhar }}</p>  <!-- Displaying decrypted aadhar -->
+                    <p><span>Address:</span> {{ patient.address }}</p>
+                </div>
+                
+                {% endfor %}
+            {% else %}
+                <p class="no-patients">No patients found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript to filter patients by name -->
+    <script>
+        function searchPatients() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const patientList = document.getElementById('patient-list');
+            const patients = patientList.getElementsByClassName('patient-block');
+            
+            for (let i = 0; i < patients.length; i++) {
+                const patientName = patients[i].getAttribute('data-name');
+                
+                if (patientName.indexOf(filter) > -1) {
+                    patients[i].style.display = '';  // Show patient
+                } else {
+                    patients[i].style.display = 'none';  // Hide patient
+                }
+            }
+        }
+        db.patients.find().pretty();
+
+    </script>
+</body>
+</html>

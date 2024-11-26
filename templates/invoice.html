@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/invoice.css') }}">
+    <style>
+        /* Add styles for buttons and table here */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .paid-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .paid-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="home-btn" onclick="window.location.href='/';">Home</button>
+    <h2>Invoice for {{ email }}</h2>
+    <table>
+        <tr>
+            <th>Test Name</th>
+            <th>Amount</th>
+            <th>Timing</th>
+            <th>Test Date</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.test_name }}</td>
+            <td>{{ record.amount }}</td>
+            <td>{{ record.timing }}</td>
+            <td>{{ record.test_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Total Amount: ₹{{ total_amount }}</h3>
+    <button onclick="window.print();">Print</button>
+</body>
+</html>

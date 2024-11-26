@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop class="background-video">
+        <source src="{{ url_for('static', filename='video/home.mp4') }}" type="video/mp4">
+    </video>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">HealthSphere</div>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="#">Source</a>
+            <a href="{{url_for('authenticate_user')}}">View Patients</a>
+            <a href="{{ url_for('main') }}">Home</a>
+            <a href="{{ url_for('doctor_login') }}">Doctor Login</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="left-side">
+            <h1>Welcome to the Patient Portal</h1>
+        </div>
+        <div class="right-side">
+            {% if 'patient' in session %}
+                <p>Hello, {{ session['patient'] }}!</p>
+                <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+            {% else %}
+                <button onclick="window.location.href='{{ url_for('register') }}'">Register</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="benefits">
+        <h2>Benefits of Using HealthSphere App</h2>
+        <p>HealthSphere app provides a comprehensive platform for patients to manage their health effectively. With HealthSphere, you can easily access your medical records, schedule appointments, and communicate with your healthcare providers. Our app is designed to simplify your healthcare experience, making it more convenient and accessible. Stay on top of your health with personalized reminders and health tips. Join HealthSphere today and take control of your health journey.</p>
+    </div>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            var navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            var navLinks = document.getElementById('nav-links');
+            var hamburger = document.getElementById('hamburger');
+            if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

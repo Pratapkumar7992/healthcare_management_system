@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4f67ff, #8cffa0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Adjust height to fit the screen */
+            margin: 0;
+            color: #333;
+        }
+        
+        .container {
+            width: 90%; /* Allows it to adjust to smaller screens */
+            max-width: 600px; /* Sets an upper limit */
+            margin: 20px; /* Adds some space around the container */
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }        
+        h1 {
+            text-align: center;
+            color: #5a67d8;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #5a67d8;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background: #434190;
+        }
+        .doctor-list {
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+        .doctor-list h2 {
+            color: #5a67d8;
+        }
+        /* Style for the Home Button */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <button class="home-btn" onclick="window.location.href='/';">Home</button>
+    <div class="container">
+        <h1>Schedule Appointment</h1>
+        <form id="appointmentForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+            <label for="disease">Disease</label>
+            <select id="disease" name="disease" required>
+                <option value="Cancer">Cancer</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Common Cold">Common Cold</option>
+                <option value="Diabetes">Diabetes</option>
+                <option value="Heart Disease">Heart Disease</option>
+                <option value="Tuberculosis">Tuberculosis (TB)</option>
+                <option value="Alzheimer's Disease">Alzheimer's Disease</option>
+                <option value="Hypertension">Hypertension</option>
+                <option value="Stroke">Stroke</option>
+            </select>
+
+            <div id="timeSection" style="display: none;">
+                <label for="startTime">Start Time</label>
+                <input type="time" id="startTime" name="startTime" required />
+
+                <label for="endTime">End Time</label>
+                <input type="time" id="endTime" name="endTime" required />
+            </div>
+        </form>
+
+        <div id="doctorSection" class="doctor-list" style="display: none;">
+            <h2>Available Doctors</h2>
+            <select id="doctorSelect"></select>
+            <button id="appointmentButton">Book Appointment</button>
+        </div>
+    </div>
+
+    <script>
+        const diseaseDropdown = document.getElementById("disease");
+        const doctorSection = document.getElementById("doctorSection");
+        const doctorSelect = document.getElementById("doctorSelect");
+        const appointmentButton = document.getElementById("appointmentButton");
+        const timeSection = document.getElementById("timeSection");
+        const startTimeInput = document.getElementById("startTime");
+        const endTimeInput = document.getElementById("endTime");
+
+        // Fetch doctors based on disease
+        diseaseDropdown.addEventListener("change", async () => {
+            const disease = diseaseDropdown.value;
+
+            if (disease) {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/doctors?disease=${disease}`);
+                    const doctors = await response.json();
+
+                    doctorSelect.innerHTML = '';  // Clear previous options
+                    const defaultOption = document.createElement("option");
+                    defaultOption.textContent = "Select a Doctor";
+                    doctorSelect.appendChild(defaultOption);
+
+                    if (doctors.length > 0) {
+                        doctors.forEach(doctor => {
+                            const option = document.createElement("option");
+                            option.value = doctor.name;
+                            option.textContent = doctor.name;
+                            doctorSelect.appendChild(option);
+                        });
+                        doctorSection.style.display = "block"; // Show the doctor section
+                        timeSection.style.display = "block"; // Show time section
+                    } else {
+                        const option = document.createElement("option");
+                        option.textContent = "No doctors available for this disease.";
+                        doctorSelect.appendChild(option);
+                        doctorSection.style.display = "block";
+                        timeSection.style.display = "none";
+                    }
+                } catch (err) {
+                    console.error("Error fetching doctors:", err);
+                    doctorSection.style.display = "none";  // Hide if there's an error
+                    timeSection.style.display = "none";
+                }
+            } else {
+                doctorSection.style.display = "none"; // Hide doctor section if no disease selected
+                timeSection.style.display = "none";
+            }
+        });
+
+        // Function to validate time duration
+        function isValidTimeSlot(start, end) {
+            const startTime = new Date(`1970-01-01T${start}`);
+            const endTime = new Date(`1970-01-01T${end}`);
+            const duration = (endTime - startTime) / 60000;  // Convert milliseconds to minutes
+            return duration <= 30; // Valid if duration is 30 minutes or less
+        }
+
+        // Handle appointment button click
+        appointmentButton.addEventListener("click", async () => {
+            const selectedDoctor = doctorSelect.value;
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+
+            if (!selectedDoctor || !startTime || !endTime) {
+                alert("Please complete all fields.");
+                return;
+            }
+
+            if (!isValidTimeSlot(startTime, endTime)) {
+                alert("The appointment duration must not exceed 30 minutes.");
+                return;
+            }
+
+            const appointmentData = {
+                email: document.getElementById("email").value,
+                doctor: selectedDoctor,
+                disease: diseaseDropdown.value,
+                startTime: startTime,
+                endTime: endTime
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/api/appointments", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(appointmentData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert(`Appointment booked with Dr. ${selectedDoctor} from ${startTime} to ${endTime}!`);
+                    window.location.reload(); // Refresh the page after successful booking
+                } else {
+                    alert(`Error: ${result.message}`);
+                }
+            } catch (err) {
+                console.error("Error booking appointment:", err);
+                alert("Error booking appointment.");
+            }
+        });
+    </script>
+</body>
+</html>

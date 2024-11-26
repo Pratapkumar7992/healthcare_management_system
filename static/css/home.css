@@ -1,0 +1,256 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+.left-side, .right-side {
+    width: 45%;
+}
+
+.left-side h1 {
+    text-align: left;
+}
+
+.right-side {
+    text-align: right;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: white;
+    color: black;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 24px;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: underline;
+}
+
+.benefits {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.benefits h2 {
+    text-align: center;
+    color: #333;
+}
+
+.benefits p {
+    text-align: justify;
+    font-size: 16px;
+    color: #555;
+}
+
+
+/* Background video styling */
+.background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+/* Layout organization */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+.left-side, .right-side {
+    width: 45%;
+}
+
+.left-side h1 {
+    text-align: left;
+}
+
+.right-side {
+    text-align: right;
+}
+
+/* Styling enhancements */
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+    margin-top: 100px;
+}
+
+.container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.856);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure navbar is on top */
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 24px;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: none;
+    background-color: #3636378a;
+}
+
+/* Hamburger menu styles */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 1001; /* Ensure hamburger is above other content */
+}
+
+.hamburger div {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.869);
+        text-align: left;
+        width: 200px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.634);
+        z-index: 1001; /* Ensure dropdown is on top */
+    }
+    .navbar .nav-links a {
+        padding: 15px;
+    }
+    .navbar .nav-links.show {
+        display: flex;
+    }
+    .hamburger {
+        display: flex;
+    }
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+    .container .left-side, .container .right-side {
+        width: 100%;
+        text-align: center;
+    }
+    .container h1 {
+        font-size: 1.5em;
+    }
+    .container form {
+        width: 100%;
+        padding: 0 10px;
+    }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/patient_dashboard.css') }}">
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='video/login.mp4') }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    
+    <div class="container">
+        <h1>Welcome, {{ patient.name }}</h1>
+        
+        <!-- Patient Details -->
+        <div class="patient-details">
+            <p><strong>Email:</strong> {{ patient.email }}</p>
+            <p><strong>Name:</strong> {{ patient.name }}</p>
+            <p><strong>Age:</strong> {{ patient.age }}</p>
+            <p><strong>Gender:</strong> {{ patient.gender }}</p>
+            <p><strong>Disease:</strong> {{ patient.disease }}</p>
+            <p><strong>Date of Birth:</strong> {{ patient.dob }}</p>
+            <p><strong>Contact Number:</strong> {{ patient.contact }}</p>
+            <p><strong>Aadhar Number:</strong> {{ patient.aadhar }}</p>
+            <p><strong>Address:</strong> {{ patient.address }}</p>
+        </div>
+
+        <!-- Active Appointments Section -->
+        <h2>Active Appointments</h2>
+        {% if active_appointments %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Disease</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in active_appointments %}
+                    <tr>
+                        <td>{{ appointment.doctor }}</td>
+                        <td>{{ appointment.disease }}</td>
+                        <td>{{ appointment.startTime }}</td>
+                        <td>{{ appointment.endTime }}</td>
+                        <td>
+                            <!-- Complete Appointment Button -->
+                            <form action="{{ url_for('complete_appointment', appointment_id=appointment._id) }}" method="POST">
+                                <button type="submit" class="complete-btn">Complete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No active appointments found.</p>
+        {% endif %}
+
+        <!-- Past Appointments Section -->
+        <h2>Past Appointments</h2>
+        {% if past_appointments %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Disease</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in past_appointments %}
+                    <tr>
+                        <td>{{ appointment.doctor }}</td>
+                        <td>{{ appointment.disease }}</td>
+                        <td>{{ appointment.startTime }}</td>
+                        <td>{{ appointment.endTime }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No past appointments found.</p>
+        {% endif %}
+
+        <!-- Logout Link -->
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='video/login.mp4') }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <div class="logo">HealthSphere</div>
+        <div class="nav-links" id="nav-links">
+            <a href="#">Source</a>
+            <a href="#">Resource</a>
+            <a href="{{ url_for('main') }}">Home</a>
+            <a href="{{ url_for('doctor_login') }}">Doctor Login</a>
+        </div>
+        
+        <!-- Check if the doctor is logged in, and display their name -->
+        {% if doctor_name %}
+        <div class="doctor-name">
+            Logged in as: Dr. {{ doctor_name }}
+        </div>
+        {% endif %}
+        
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="left-side">
+            <h1>Welcome to Login</h1>
+        </div>
+        <div class="right-side">
+            <form method="post" action="{{ url_for('login') }}">
+                <input type="email" name="email" placeholder="Email" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <h2>Information</h2>
+        <div class="feature-blocks">
+            <div class="feature-block">
+                <h3>Important Announcements</h3>
+                <p>Display any urgent announcements related to the healthcare facility, such as changes in operating hours, new services, or important health alerts (e.g., flu season guidelines, COVID-19 updates).</p>
+            </div>
+            <div class="feature-block">
+                <h3>Security Tips</h3>
+                <p>Offer security advice to users to protect their login credentials, such as creating strong passwords, recognizing phishing attempts, and the importance of logging out from shared devices.</p>
+            </div>
+            <div class="feature-block">
+                <h3>Health Tips</h3>
+                <p>Provide rotating health tips or wellness advice, such as reminders for annual check-ups, tips for a balanced diet, mental health awareness, or exercise recommendations.</p>
+            </div>
+            <div class="feature-block">
+                <h3>Contact Information</h3>
+                <p>Clearly display contact details for technical support, patient services, or emergency assistance to help users quickly get the help they need.</p>
+            </div>
+            <div class="feature-block">
+                <h3>User Testimonials or Success Stories</h3>
+                <p>Share positive testimonials or success stories from patients to build trust and show the impact of the healthcare services provided.</p>
+            </div>
+            <div class="feature-block">
+                <h3>Upcoming Events</h3>
+                <p>Inform users about upcoming events, such as health fairs, vaccination drives, or community health workshops.</p>
+            </div>
+            <div class="feature-block">
+                <h3>Login Help</h3>
+                <p>Provide quick links or FAQs related to common login issues, such as resetting passwords, recovering usernames, or troubleshooting browser compatibility.</p>
+            </div>
+            <div class="feature-block">
+                <h3>System Status</h3>
+                <p>Show the current status of the system, including any scheduled maintenance or known issues that might affect access or performance.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function(event) {
+            event.stopPropagation();
+            var navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            var navLinks = document.getElementById('nav-links');
+            var hamburger = document.getElementById('hamburger');
+            if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

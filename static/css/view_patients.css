@@ -1,0 +1,137 @@
+/* Ensure the body and html take up the full height */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Background video styles */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;  /* Places the video behind the content */
+    overflow: hidden;
+}
+
+#background-video {
+    object-fit: cover; /* Ensures the video covers the entire screen */
+    width: 100%;
+    height: 100%;
+}
+
+/* Add some global body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Styling for the search bar */
+.search-bar {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Header section styling */
+header {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #444; /* Slightly lighter border */
+    z-index: 1;  /* Ensure header is above the video */
+    position: relative; /* Make sure header stays above the video */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-family: 'Arial', sans-serif;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #555;
+    padding: 8px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+header a:hover {
+    background-color: #888;
+}
+
+/* Styling for the patient container */
+.patient-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+/* Styling for individual patient blocks */
+.patient-block {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    color: #333;
+}
+
+.patient-block:hover {
+    transform: translateY(-5px);
+}
+
+/* Styling for the patient block headings */
+.patient-block h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Styling for patient block details */
+.patient-block p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 0.95em;
+}
+
+.patient-block span {
+    font-weight: bold;
+}
+
+/* Styling for when no patients are found */
+p.no-patients {
+    text-align: center;
+    color: #777;
+    font-size: 1.2em;
+}
+
+/* Styling for the page heading */
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2em;
+    color: #333;
+}

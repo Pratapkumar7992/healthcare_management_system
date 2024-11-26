@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/schedule_management.css') }}">
+</head>
+<body>
+    <!-- Home Button -->
+    <a href="{{ url_for('main') }}" class="home-button">Home</a>
+
+    <h1>Schedule Management</h1>
+
+    <!-- Email Input Form -->
+    <form method="POST" action="{{ url_for('schedule_management') }}">
+        <label for="email">Enter Your Email:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Fetch Appointments</button>
+    </form>
+
+    {% if appointments %}
+    <h2>Appointments for {{ appointments[0].email }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Disease</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <form method="POST" action="{{ url_for('update_schedule', appointment_id=appointment['_id']) }}">
+                    <td>{{ appointment.doctor }}</td>
+                    <td>{{ appointment.disease }}</td>
+                    <td>
+                        <input type="time" name="start_time" value="{{ appointment.startTime }}" required>
+                    </td>
+                    <td>
+                        <input type="time" name="end_time" value="{{ appointment.endTime }}" required>
+                    </td>
+                    <td>
+                        <button type="submit">Update</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p></p>
+    {% endif %}
+</body>
+</html>

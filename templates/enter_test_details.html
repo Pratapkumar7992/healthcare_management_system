@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Test Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/enter_test_details.css') }}">
+    <style>
+        /* Style for the Home Button */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <button class="home-btn" onclick="window.location.href='/';">Home</button>
+    <div class="container">
+        <h1>Enter Test Details</h1>
+        {% if success_message %}
+            <div class="success-message">
+                {{ success_message }}
+            </div>
+        {% endif %}
+        <!-- Email Input Form -->
+        <form id="emailForm" method="POST" action="/check_email">
+            <label for="email">Patient Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter patient's email" required />
+            <button type="submit">Check Email</button>
+        </form>
+
+        <!-- Error message if email doesn't exist -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <!-- Test Details Form (hidden until email is verified) -->
+        <div id="testDetailsForm" class="form-section">
+            <form method="POST" action="/enter_test_details">
+                <input type="hidden" id="emailField" name="email" />
+
+                <label for="test_name">Test Name</label>
+                <input type="text" id="test_name" name="test_name" placeholder="Enter test name" required />
+            
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter test amount" required />
+            
+                <label for="timing">Timing of Test</label>
+                <input type="time" id="timing" name="timing" required />
+            
+                <label for="test_date">Test Date</label>
+                <input type="date" id="test_date" name="test_date" required />
+            
+                <button type="submit">Save Test Details</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const emailForm = document.getElementById("emailForm");
+        const emailInput = document.getElementById("email");
+        const testDetailsForm = document.getElementById("testDetailsForm");
+        const errorMessage = document.getElementById("errorMessage");
+        const emailField = document.getElementById("emailField");
+
+        // Handle the email check
+        emailForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const email = emailInput.value;
+
+            try {
+                const response = await fetch("/check_email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `email=${email}`
+                });
+                const result = await response.json();
+
+                if (result.found) {
+                    // Show the test details form if email exists
+                    emailField.value = email; // Set email in the test details form
+                    testDetailsForm.style.display = "block";
+                    errorMessage.style.display = "none"; // Hide error message if email is valid
+                } else {
+                    // Show error message if email doesn't exist
+                    errorMessage.textContent = "Email not found in our records. Please check and try again.";
+                    errorMessage.style.display = "block";
+                    testDetailsForm.style.display = "none";
+                }
+            } catch (error) {
+                console.error("Error checking email:", error);
+                errorMessage.textContent = "An error occurred. Please try again later.";
+                errorMessage.style.display = "block";
+                testDetailsForm.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

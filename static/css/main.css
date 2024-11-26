@@ -1,0 +1,909 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styling for the body */
+body {
+    background-color: #e0f7fa; /* Light green background color */
+    font-family: Arial, sans-serif;
+}
+
+/* Styling for the navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px; /* Move navbar slightly down */
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #4caf50; /* Change color to light green on hover */
+}
+
+.logo img {
+    height: 50px; /* Adjust logo height as needed */
+}
+
+.connect-btn {
+    background-color: #4caf50; /* Light green background color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 20px; /* Rounded corners */
+}
+
+.connect-btn:hover {
+    background-color: #e0f7fa; /* Light green color on hover */
+    color: #333; /* Dark text color on hover */
+}
+
+.hero-section {
+    background-color: #f0f0f0; /* Light grey background for hero section */
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 90px); /* Adjust height minus navbar height */
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.text h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.text p {
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+.image {
+    flex: 1;
+    text-align: right;
+}
+
+.doctor-image {
+    width: 200px; /* Smaller width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    width: 30px;
+    height: 22px;
+    justify-content: space-between;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: right 0.3s ease;
+    z-index: 1;
+}
+
+.sidebar.active {
+    right: 0;
+}
+
+.sidebar-content {
+    padding: 20px;
+}
+
+.sidebar-nav-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-nav-links li {
+    margin-bottom: 10px;
+}
+
+.sidebar-nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.sidebar-nav-links li a:hover {
+    color: #4caf50; /* Light green color on hover */
+}
+
+.sidebar-connect-btn {
+    display: block;
+    background-color: #4caf50; /* Light green background color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 20px; /* Rounded corners */
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sidebar-connect-btn:hover {
+    background-color: #e0f7fa; /* Light green color on hover */
+    color: #333; /* Dark text color on hover */
+}
+
+/*menu option */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially hidden off-screen */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s ease;
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.active {
+    left: 0; /* Show sidebar by moving it to the left edge */
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.sidebar-nav-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-nav-links li {
+    margin-bottom: 15px;
+}
+
+.sidebar-nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.sidebar-nav-links li a:hover {
+    color: #00bcd4;
+}
+
+.sidebar-connect-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #00bcd4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-connect-btn:hover {
+    background-color: #008ba3;
+}
+
+/* end Styles for sidebar */
+
+
+/* Features Section */
+.features-section {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.features-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.feature {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature:hover{
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.746);
+    transition: 0.5s;
+}
+
+.feature img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.feature h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    
+}
+
+.feature p {
+    font-size: 1em;
+    color: #666;
+    
+}
+
+
+
+
+.feature-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+.feature-link h3,
+.feature-link p {
+    text-decoration: none;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: background-color 0.3 ease;
+
+}
+
+.feature:hover{
+    background-color: #e0e0e0;
+}
+.feature-link h3,
+.feature-link p{
+    color: #333;
+}
+
+/* Partnering Section */
+.partnering-section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.partnering-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.partnering-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.partner-box {
+    flex: 1 1 30%;
+    max-width: 30%;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.partner-box:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.648);
+    transition: 0.5s;
+}
+
+.partner-box img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.partner-box h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.partner-box p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide nav links on small screens */
+    }
+
+    .connect-btn {
+        display: none; /* Hide Let's Connect button on small screens */
+    }
+
+    .menu-toggle {
+        display: flex; /* Show hamburger menu on small screens */
+    }
+
+    .content {
+        flex-direction: column-reverse; /* Stack text and image vertically */
+        align-items: center;
+    }
+
+    .text {
+        text-align: center;
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .text h1 {
+        font-size: 2em; /* Smaller font size for mobile */
+    }
+
+    .text p {
+        font-size: 1em; /* Smaller font size for mobile */
+    }
+
+    .doctor-image {
+        width: 100px; /* Smaller image size for mobile */
+        height: auto; /* Adjust height to maintain aspect ratio */
+    }
+
+    .features-section {
+        padding: 20px 10px;
+    }
+
+    .feature img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .feature h3 {
+        font-size: 1.2em;
+    }
+
+    .feature p {
+        font-size: 0.9em;
+    }
+
+    .partnering-content {
+        flex-direction: column;
+    }
+
+    .partner-box {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* Add these styles to your existing CSS file */
+
+.testimonials-section {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.testimonials-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.testimonials-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.testimonial {
+    background-color: #a9bcbb;
+    border-radius: 50%;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial .rating {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.testimonial p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+
+/* About Our Company Section */
+.company-info-section {
+    padding: 50px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.company-info-section .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.company-info-section .about-company {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.company-info-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.company-info-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+}
+
+
+/* Mission & Vision Section */
+.mission-vision-section {
+    padding: 50px 20px;
+    background-color: #c9dbdb;
+    text-align: center;
+}
+
+.mission-vision-section .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.mission, .vision {
+    flex: 1 1 45%;
+    max-width: 45%;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.mission h2, .vision h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.mission p, .vision p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Our Values Section */
+.values-section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.values-section .content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.values-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.values-section ul {
+    text-align: left;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.values-section li {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.values-section li strong {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Our Commitment Section */
+.commitment-section {
+    padding: 50px 20px;
+    background-color: #e0f2f1;
+    text-align: center;
+}
+
+.commitment-section .content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.commitment-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.commitment-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Why Choose Us Section */
+.why-choose-us-section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.why-choose-us-section .content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.why-choose-us-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.why-choose-us-section ul {
+    text-align: left;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.why-choose-us-section li {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.why-choose-us-section li strong {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Connect With Us Section */
+.connect-with-us-section {
+    padding: 50px 20px;
+    background-color: #e0f2f1;
+    text-align: center;
+}
+
+.connect-with-us-section .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.connect-with-us-section .join-us, .connect-with-us-section .connect-with-us {
+    flex: 1 1 45%;
+    max-width: 45%;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.connect-with-us-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.connect-with-us-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Styles for the ask-question-section */
+.ask-question-section {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.ask-question-section .background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.ask-question-section .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+    z-index: 2;
+}
+
+.ask-question-section .content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ask-question-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.ask-question-section form {
+    text-align: left;
+}
+
+.ask-question-section .form-group {
+    margin-bottom: 20px;
+}
+
+.ask-question-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.ask-question-section input[type="text"],
+.ask-question-section input[type="email"],
+.ask-question-section textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.ask-question-section textarea {
+    resize: vertical;
+}
+
+.ask-question-section .submit-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #313234;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ask-question-section .submit-btn:hover {
+    background-color: #5ce0e9;
+}
+
+/* Media query to ensure proper order on smaller screens */
+@media (max-width: 768px) {
+    .ask-question-section {
+        order: 1;
+    }
+}
+
+/* end ask a question section*/
+
+/* Footer Section */
+.footer-section {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    color: #333;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+    color: #007bff;
+}
+
+.hiring-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.new-badge {
+    background-color: #ff9800;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.social-icons img {
+    width: 24px;
+    margin-right: 10px;
+}
+
+.app-download img {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.newsletter {
+    margin-top: 20px;
+}
+
+#newsletter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#newsletter-email {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Added margin for spacing */
+}
+
+
+.subscribe-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #6b7783;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.subscribe-btn:hover {
+    background-color: #64c2cd;
+    box-shadow: 0 10px 5px rgba(0, 0, 0, 0.679);
+    transition: 0.5s;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.footer-links li {
+    margin: 0 10px;
+}
+
+.footer-links li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+    color: #007bff;
+}
