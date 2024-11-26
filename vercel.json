@@ -1,16 +1,17 @@
 {
-    "version":2,
-    "builds":[
-        {
-            "src":"./index.py",
-            "use":"@vercel/python",
-            "config":{"runtime":"python3.6"}
-        }
+    "builds": [
+      {
+        "src": "app.py",
+        "use": "@vercel/python"
+      }
     ],
-    "routes":[
-        {
-            "src":"/(.*)",
-            "dest":"/"
-        }
-    ]
-}
+    "env": {
+      "RUSTUP_HOME": "/tmp/rustup",
+      "CARGO_HOME": "/tmp/cargo",
+      "PATH": "$PATH:/tmp/cargo/bin"
+    },
+    "hooks": {
+      "build": "curl https://sh.rustup.rs -sSf | sh -s -- -y && export PATH=$PATH:/tmp/cargo/bin && pip install -r requirements.txt"
+    }
+  }
+  
