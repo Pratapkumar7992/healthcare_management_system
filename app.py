@@ -362,21 +362,34 @@ def book_appointment():
 
 
 #start fetch data from doctor_info
-@app.route('/doctor_profiles')
+
+@app.route('/doctor_profiles', methods=['GET'])
 def doctor_profiles():
     try:
-        # Fetch all doctors from the collection
+        # Fetch all doctors from the doctor_info_collection
         doctors = list(doctor_info_collection.find({}))
 
-        # Convert ObjectId to string for each doctor (if needed)
+        # For each doctor, count the number of current and past appointments
         for doctor in doctors:
-            doctor['_id'] = str(doctor['_id'])
-        
+            doctor['_id'] = str(doctor['_id'])  # Convert _id to string for rendering in HTML
+            
+            # Count current appointments from the appointment_collection
+            current_appointments = appointment_collection.count_documents({'doctor': doctor['name']})
+            doctor['current_appointments_count'] = current_appointments
+            
+            # Count past appointments from the past_appointment_collection
+            past_appointments = past_appointment_collection.count_documents({'doctor': doctor['name']})
+            doctor['past_appointments_count'] = past_appointments
+
+        # Return the rendered template with doctor information
         return render_template('doctor_profiles.html', doctors=doctors)
+    
     except Exception as e:
-        print(f"Error fetching doctor profiles: {str(e)}")
-        flash('An error occurred while fetching doctor profiles.', 'danger')
+        # Log the error and show a flash message
+        logging.error(f"Error fetching doctor profiles: {str(e)}")
+        flash('An error occurred while fetching doctor profiles. Please try again later.', 'danger')
         return redirect(url_for('patient_dashboard'))
+
 
 
 
@@ -420,76 +433,94 @@ def update_schedule(appointment_id):
 #schedule_management
 
 #analystic management
-
-@app.route('/analytics', methods=['GET'])
+@app.route('/analytics')
 def analytics():
-    # Fetch and decrypt patient data
+    # Fetch patient data for age and gender
     patients = patients_collection.find()
-    decrypted_patients = []
+
+    # Lists to store age and gender data
+    ages = []
+    genders = {'Male': 0, 'Female': 0, 'Other': 0}
+
     for patient in patients:
-        decrypted_patients.append({
-            'age': int(decrypt_data(patient['age'], key)),
-            'gender': decrypt_data(patient['gender'], key),
-            'disease': decrypt_data(patient['disease'], key)
-        })
+        # Decrypt age and gender fields
+        age_encrypted = patient.get('age', None)
+        gender_encrypted = patient.get('gender', None)
 
-    # Calculate total patients, age distribution, and gender distribution
-    total_patients = len(decrypted_patients)
-    age_distribution = Counter([patient['age'] for patient in decrypted_patients])
-    gender_distribution = Counter([patient['gender'] for patient in decrypted_patients])
+        if age_encrypted and gender_encrypted:
+            try:
+                age = decrypt_data(age_encrypted, key)  # Decrypt age
+                gender = decrypt_data(gender_encrypted, key)  # Decrypt gender
 
-    # Fetch past appointment data (no decryption needed)
+                ages.append(int(age))  # Convert age to integer
+                genders[gender] += 1  # Count gender occurrences
+            except Exception as e:
+                print(f"Error decrypting data for patient {patient.get('_id')}: {e}")
+
+    # Prepare data for pie chart (gender distribution)
+    gender_labels = list(genders.keys())
+    gender_values = list(genders.values())
+
+    # Fetch past appointment data for doctor and disease
     past_appointments = past_appointment_collection.find()
-    plain_past_appointments = []
+
+    doctor_counts = {}
+    disease_counts = {}
+
     for appointment in past_appointments:
-        plain_past_appointments.append({
-            'email': appointment['email'],
-            'doctor': appointment['doctor'],
-            'disease': appointment['disease'],
-            'startTime': appointment['startTime'],
-            'endTime': appointment['endTime']
-        })
+        doctor = appointment.get('doctor', None)  # Direct access (no decryption needed)
+        disease = appointment.get('disease', None)  # Direct access (no decryption needed)
 
-    # Fetch current appointment data (no decryption needed)
-    current_appointments = appointment_collection.find()
-    plain_current_appointments = []
-    for appointment in current_appointments:
-        plain_current_appointments.append({
-            'email': appointment['email'],
-            'doctor': appointment['doctor'],
-            'disease': appointment['disease'],
-            'startTime': appointment['startTime'],
-            'endTime': appointment['endTime']
-        })
+        if doctor and disease:
+            doctor_counts[doctor] = doctor_counts.get(doctor, 0) + 1
+            disease_counts[disease] = disease_counts.get(disease, 0) + 1
 
-    # Trends for appointments
-    appointment_trends = {
-        'total_appointments': len(plain_current_appointments),
-        'total_past_appointments': len(plain_past_appointments)
-    }
+    # Prepare data for bar chart (doctor and disease counts)
+    doctor_labels = list(doctor_counts.keys())
+    doctor_values = list(doctor_counts.values())
 
-    # Disease trends
-    disease_trends_past = Counter([appointment['disease'] for appointment in plain_past_appointments])
-    disease_trends_current = Counter([appointment['disease'] for appointment in plain_current_appointments])
+    disease_labels = list(disease_counts.keys())
+    disease_values = list(disease_counts.values())
 
-    # Doctor appointment load
-    doctor_appointments_past = Counter([appointment['doctor'] for appointment in plain_past_appointments])
-    doctor_appointments_current = Counter([appointment['doctor'] for appointment in plain_current_appointments])
+    # Fetch appointments data for doctor and disease
+    appointments = appointment_collection.find()
 
-    # Pass the data to the analytics.html template
+    # Data for current appointments
+    current_doctor_counts = {}
+    current_disease_counts = {}
+
+    for appointment in appointments:
+        doctor = appointment.get('doctor', None)
+        disease = appointment.get('disease', None)
+
+        if doctor and disease:
+            current_doctor_counts[doctor] = current_doctor_counts.get(doctor, 0) + 1
+            current_disease_counts[disease] = current_disease_counts.get(disease, 0) + 1
+
+    # Prepare data for current appointments bar chart (doctor and disease counts)
+    current_doctor_labels = list(current_doctor_counts.keys())
+    current_doctor_values = list(current_doctor_counts.values())
+
+    current_disease_labels = list(current_disease_counts.keys())
+    current_disease_values = list(current_disease_counts.values())
+
     return render_template(
         'analytics.html',
-        patient_demographics={
-            'total_patients': total_patients,
-            'age_distribution': dict(age_distribution),
-            'gender_distribution': dict(gender_distribution)
-        },
-        appointment_trends=appointment_trends,
-        disease_trends_past=dict(disease_trends_past),
-        disease_trends_current=dict(disease_trends_current),
-        doctor_appointments_past=dict(doctor_appointments_past),
-        doctor_appointments_current=dict(doctor_appointments_current)
+        ages=ages,
+        gender_labels=gender_labels,
+        gender_values=gender_values,
+        doctor_labels=doctor_labels,
+        doctor_values=doctor_values,
+        disease_labels=disease_labels,
+        disease_values=disease_values,
+        current_doctor_labels=current_doctor_labels,
+        current_doctor_values=current_doctor_values,
+        current_disease_labels=current_disease_labels,
+        current_disease_values=current_disease_values
     )
+
+
+
 
 
 #end analystic management

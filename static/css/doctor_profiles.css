@@ -1,51 +1,154 @@
-body {
-    font-family: Arial, sans-serif;
+/* Basic Reset */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    box-sizing: border-box;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin: 20px 0;
-}
-
-table {
-    margin: 20px auto;
-    border-collapse: collapse;
-    width: 80%;
-    background: #fff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-table th {
+body {
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
 }
 
-table tr:hover {
-    background-color: #f1f1f1;
+.navbar{
+    background-color: #333;
+    padding: 10px 20px;
+    text-align: right;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
-a {
-    display: block;
-    text-align: center;
-    margin: 20px auto;
-    text-decoration: none;
+.navbar-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar-link{
     color: white;
-    background: #007bff;
-    padding: 10px 15px;
-    width: fit-content;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #007bff;
     border-radius: 5px;
+}
+
+.navbar-link:hover{
+    background-color: rgb(98, 124, 255);
+    text-decoration: none;
+}
+/* Back link */
+a {
+    text-decoration: none;
+    color: #007bff;
     font-size: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
 }
 
 a:hover {
-    background: #0056b3;
+    text-decoration: underline;
+}
+
+/* Main heading */
+h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 30px;
+    margin-top: 100px;
+}
+
+/* Search Form */
+form {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#search-input {
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;  /* Adjust width as needed */
+    max-width: 500px; /* Maximum width to prevent it from becoming too large */
+    margin-bottom: 20px; /* Space below the search bar */
+    border: 2px solid #ccc; /* Border style */
+    border-radius: 5px; /* Rounded corners */
+    outline: none; /* Removes the default outline on focus */
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 200px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Doctor list container */
+.doctor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Doctor card box */
+.doctor-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Doctor card content */
+.doctor-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.doctor-card p {
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.doctor-card p strong {
+    color: #007bff;
+}
+
+/* Error message */
+p {
+    text-align: center;
+    color: red;
+    font-size: 18px;
 }

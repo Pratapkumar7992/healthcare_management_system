@@ -8,7 +8,7 @@ YOUR_ENCRYPTION_KEY = os.urandom(16)
 def encrypt_password(password):
     """Encrypt the password using bcrypt."""
     password_bytes = password.encode('utf-8')  # Convert to bytes
-    salt = bcrypt.gensalt()  # Generate a salt means(any string like $f^%#fhdfvW#$gesdfs3#$%)
+    salt = bcrypt.gensalt()  # Generate a salt means(any string like 1011011011111000000)
     hashed_password = bcrypt.hashpw(password_bytes, salt)  # Hash the password with the salt(bytes password and $f^%#fhdfvW#$gesdfs3#$%)
     return hashed_password.decode('utf-8')  # Return the hashed password as a string(return to the app.py)
 

@@ -1,21 +1,96 @@
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #4f67ff, #8cffa0);
-    color: #333;
+/* Navbar styling */
+.navbar {
+    background-color: #333;
+    padding: 10px 20px;
+    text-align: right; /* Aligns the navbar content to the right */
+    position: fixed; /* Make the navbar fixed at the top */
+    top: 0; /* Position it at the top of the page */
+    left: 0;
+    width: 100%; /* Make the navbar span the entire width */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end; /* Align the link to the right */
+}
+
+.navbar-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+.navbar-link:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+/* Ensure proper layout of the container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
     padding: 20px;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
+    font-size: 2.5rem;
     margin-bottom: 30px;
 }
 
+/* Container for each chart */
 .chart-container {
-    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    align-items: center;
 }
 
-canvas {
-    max-width: 800px;
-    margin: 0 auto;
-    display: block;
+/* Styling for chart description */
+.chart-description {
+    width: 40%;
+    padding: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Specific positioning for description text */
+.chart-description.left {
+    text-align: left;
+}
+
+.chart-description.right {
+    text-align: right;
+}
+
+/* Make the canvas responsive */
+.chart {
+    width: 55%;
+    max-width: 600px;
+    height: 300px;
+    position: relative;
+}
+
+/* Adjust the charts for mobile view */
+@media (max-width: 768px) {
+    .chart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart-description {
+        width: 90%;
+        text-align: center;
+    }
+
+    .chart {
+        width: 90%;
+    }
 }

@@ -7,32 +7,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_profiles.css') }}">
 </head>
 <body>
-    <a href="{{ url_for('main') }}">Back to Dashboard</a>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{url_for('main')}}" class="navbar-link">Home</a>
+        </div>
+    </nav>
     <h1>Doctor Profiles</h1>
+
+    <!-- Search Form (automatic search without a button) -->
+    <input type="text" id="search-input" placeholder="Search by doctor name" onkeyup="filterDoctors()">
     
     {% if doctors %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Specialty</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for doctor in doctors %}
-                <tr>
-                    <td>{{ doctor.name }}</td>
-                    <td>{{ doctor.specialty }}</td>
-                    <td>{{ doctor.email }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="doctor-list" id="doctor-list">
+            {% for doctor in doctors %}
+                <div class="doctor-card" data-name="{{ doctor.name | lower }}">
+                    <h3>{{ doctor.name }}</h3>
+                    <p><strong>Specialty:</strong> {{ doctor.specialty }}</p>
+                    <p><strong>Email:</strong> {{ doctor.email }}</p>
+                    <p><strong>Current Appointments:</strong> {{ doctor.current_appointments_count }}</p>
+                    <p><strong>Past Appointments:</strong> {{ doctor.past_appointments_count }}</p>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <p>No doctor profiles found.</p>
     {% endif %}
     
-    
+    <script>
+        function filterDoctors() {
+            // Get the value of the search input field
+            const searchQuery = document.getElementById("search-input").value.toLowerCase();
+            const doctorCards = document.querySelectorAll(".doctor-card");
+
+            // Loop through all the doctor cards and hide/show based on the search query
+            doctorCards.forEach(function(card) {
+                const doctorName = card.getAttribute("data-name").toLowerCase();
+                
+                // If the search query matches part of the doctor's name, show the card, otherwise hide it
+                if (doctorName.includes(searchQuery)) {
+                    card.style.display = "block";  // Show the card
+                } else {
+                    card.style.display = "none";  // Hide the card
+                }
+            });
+        }
+    </script>
 </body>
 </html>
