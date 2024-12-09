@@ -18,8 +18,11 @@
                 <li><a href="{{ url_for('authenticate_user') }}">View Patients</a></li>
                 <li><a href="{{ url_for('home') }}">Patient Login</a></li>
                 <li><a href="{{ url_for('doctor_login') }}">Doctor Login</a></li>
-            </ul>            
-            <button class="connect-btn">Let's Connect</button>
+            </ul>
+            <a href="{{ url_for('home') }}">
+                <button class="connect-btn">Let's Connect</button>
+            </a>
+            
             <div class="menu-toggle" id="menu-toggle">
                 <span></span>
                 <span></span>
@@ -122,11 +125,13 @@
         
         
         
-        <div class="feature">
-            <img src="{{ url_for('static', filename='picture/motivation.png') }}" alt="Announcements">
-            <h3>Announcements</h3>
-            <p>Display important announcements or updates for patients and staff.</p>
-        </div>
+        <a href="{{url_for('announcement')}}" class="feature-link">
+            <div class="feature">
+                <img src="{{ url_for('static', filename='picture/motivation.png') }}" alt="Announcements">
+                <h3>Announcements</h3>
+                <p>Display important announcements or updates for patients and staff.</p>
+            </div>
+        </a>
     </section>
 
     <!-- New Section -->

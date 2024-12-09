@@ -60,6 +60,7 @@ past_appointment_collection=db['past_appointment']
 test_bills_collection = db['test_bills_collection']
 authorize_collection=db['Authorized_person']
 prescriptions_collection = db['prescriptions']
+announcement_collection=db['announcement']
 cancer_patients = db['cancer_patients']
 dermatology_patients = db['dermatology_patients']
 cardiology_patients = db['cardiology_patients']
@@ -353,13 +354,33 @@ def book_appointment():
 #end doctor_info
 
 
+# start announcement
+@app.route("/announcement", methods=["GET", "POST"])
+def announcement():
+    if request.method == "POST":
+        # Handle form data
+        doctor_name = request.form.get("doctor_name")
+        announcement_text = request.form.get("announcement")
+
+        # Save data to the database
+        if doctor_name and announcement_text:
+            announcement_collection.insert_one({
+                "doctor_name": doctor_name,
+                "announcement": announcement_text
+            })
+        return redirect(url_for("announcement"))
+
+    # Fetch all announcements
+    all_announcements = list(announcement_collection.find())
+    return render_template("announcement.html", announcements=all_announcements)
+
+@app.route('/delete_announcement/<id>', methods=['POST'])
+def delete_announcement(id):
+    announcement_collection.delete_one({"_id": ObjectId(id)})
+    return '', 204
 
 
-
-
-
-#end schedule_appointment
-
+#end announcement
 
 #start fetch data from doctor_info
 

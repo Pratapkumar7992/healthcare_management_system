@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/announcement.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">HealthSphere</div>
+        <button class="home-btn" onclick="window.location.href='/'">Home</button>
+    </div>
+
+    <h1>Announcements</h1>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search announcements..." onkeyup="filterAnnouncements()">
+        <button onclick="filterAnnouncements()">Search</button>
+    </div>
+
+    <form method="POST" action="{{ url_for('announcement') }}">
+        <label for="doctor_name">Doctor Name</label>
+        <input type="text" id="doctor_name" name="doctor_name" placeholder="Enter your name" required>
+        
+        <label for="announcement">Announcement</label>
+        <textarea id="announcement" name="announcement" placeholder="Write your announcement here" rows="4" required></textarea>
+        
+        <button type="submit">Post Announcement</button>
+    </form>
+    
+    <div class="announcement-container">
+        <h2>Previous Announcements</h2>
+        {% if announcements %}
+            <div id="announcement-list">
+                {% for announcement in announcements %}
+                    <div class="announcement-item">
+                        <strong>{{ announcement['doctor_name'] }}</strong>
+                        <p>{{ announcement['announcement'] }}</p>
+                        <button class="delete-btn" onclick="deleteAnnouncement('{{ announcement['_id'] }}')">Delete</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No announcements yet. Be the first to post!</p>
+        {% endif %}
+    </div>
+
+    <script>
+        // Filter Announcements
+        function filterAnnouncements() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const announcements = document.getElementsByClassName('announcement-item');
+            Array.from(announcements).forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(searchValue) ? '' : 'none';
+            });
+        }
+
+        // Delete Announcement
+        function deleteAnnouncement(id) {
+            if (confirm('Are you sure you want to delete this announcement?')) {
+                fetch(`/delete_announcement/${id}`, {
+                    method: 'POST'
+                }).then(() => {
+                    location.reload(); // Refresh the page to update announcements
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
